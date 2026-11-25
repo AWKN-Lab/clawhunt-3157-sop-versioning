@@ -5,7 +5,8 @@
 用法：python3 scripts/check_3157.py
 §20 会运行 scripts/render_png.py 生成本地预览 diagrams/泳道图-预览.png
 （.gitignore 已排除，不进交付、不进 MANIFEST）。
-运行环境：Python 3.12.3，Pillow==10.2.0（见 requirements.txt）。
+运行环境：Python 3.12.3（见 .python-version；脚本开头强制检查解释器版本，
+版本不符直接报错退出），Pillow==10.2.0（见 requirements.txt）。
 """
 import os
 import re
@@ -26,6 +27,16 @@ def read(rel):
     with open(os.path.join(BASE, rel), encoding="utf-8") as f:
         return f.read()
 
+
+# ---------- 0. 解释器版本门禁 ----------
+# .python-version 固定 3.12.3；解释器版本不符直接报错退出，不继续跑核对。
+_ver = sys.version_info[:3]
+check("解释器为 Python 3.12.3", _ver == (3, 12, 3),
+      "实际=%s" % ".".join(map(str, _ver)))
+if _ver != (3, 12, 3):
+    print("ERROR: 须用 Python 3.12.3，当前版本 %s；请按 .python-version 切换解释器。"
+          % ".".join(map(str, _ver)))
+    sys.exit(1)
 
 # ---------- 1. 主文档 5 部分 ----------
 main = read("docs/SOP-版本发布流程.md")
@@ -161,10 +172,12 @@ for label in ["满4周仍不足20实例", "按现有样本裁定", "延长 2 周
     check("连线标签「%s」drawio 与渲染脚本一致" % label,
           label in drawio_txt and label in render_src)
 
-# ---------- 8. 虚构数据扫描（全仓全类型） ----------
+# ---------- 8. 虚构数据扫描（全部文件类型） ----------
 # 覆盖全部文件类型与全部目录；只跳过 MANIFEST 自身（只含哈希）与
 # .gitignore 列出的项（本地预览图、__pycache__、*.pyc）。二进制文件按
 # 字节读、UTF-8 容错解码后扫描。
+# 结论口径：只断言在 UTF-8 容错解码 + 手机号/邮箱/身份证号三类正则
+# 检测范围内零命中；不保证二进制编码、图片及复杂格式均无个人信息。
 def _gitignore_skip(rel):
     if rel == "MANIFEST.sha256":
         return True
@@ -207,8 +220,8 @@ for dirpath, dirnames, files in os.walk(BASE):
             bad.append((rel, "邮箱"))
         if idcard.search(txt):
             bad.append((rel, "身份证号"))
-check("全仓无手机号/邮箱/身份证号", not bad,
-      "扫描=%d 文件 命中=%s" % (scanned, bad))
+check("隐私扫描（UTF-8 容错解码 + 手机号/邮箱/身份证号三类正则）零命中",
+      not bad, "扫描=%d 文件 命中=%s" % (scanned, bad))
 
 # ---------- 9. README 文件清单 ----------
 readme = read("README.md")
