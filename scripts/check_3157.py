@@ -3,6 +3,9 @@
 
 只读检查，不写平台、不推 Git。任一检查失败即退出码非 0。
 用法：python3 scripts/check_3157.py
+§20 会运行 scripts/render_png.py 生成本地预览 diagrams/泳道图-预览.png
+（.gitignore 已排除，不进交付、不进 MANIFEST）。
+运行环境：Python 3.12.3，Pillow==10.2.0（见 requirements.txt）。
 """
 import os
 import re
@@ -158,26 +161,54 @@ for label in ["满4周仍不足20实例", "按现有样本裁定", "延长 2 周
     check("连线标签「%s」drawio 与渲染脚本一致" % label,
           label in drawio_txt and label in render_src)
 
-# ---------- 8. 虚构数据扫描 ----------
+# ---------- 8. 虚构数据扫描（全仓全类型） ----------
+# 覆盖全部文件类型与全部目录；只跳过 MANIFEST 自身（只含哈希）与
+# .gitignore 列出的项（本地预览图、__pycache__、*.pyc）。二进制文件按
+# 字节读、UTF-8 容错解码后扫描。
+def _gitignore_skip(rel):
+    if rel == "MANIFEST.sha256":
+        return True
+    try:
+        rules = [ln.strip() for ln in read(".gitignore").splitlines()
+                 if ln.strip() and not ln.strip().startswith("#")]
+    except OSError:
+        rules = []
+    import fnmatch
+    for rule in rules:
+        if rule.endswith("/"):
+            if rel.startswith(rule) or ("/" + rule) in ("/" + rel):
+                return True
+        elif "/" in rule:
+            if rel == rule:
+                return True
+        elif fnmatch.fnmatch(os.path.basename(rel), rule):
+            return True
+    return False
+
+
 bad = []
+scanned = 0
 phone = re.compile(r"1[3-9]\d{9}")
 email = re.compile(r"[\w.+-]+@[\w-]+\.[\w.]+")
 idcard = re.compile(r"\d{17}[\dXx]")
-for dirpath, _, files in os.walk(BASE):
-    if "scripts" in dirpath or "evidence" in dirpath:
-        continue
+for dirpath, dirnames, files in os.walk(BASE):
+    if ".git" in dirnames:
+        dirnames.remove(".git")
     for fn in files:
-        if not fn.endswith((".md", ".drawio")):
-            continue
         p = os.path.join(dirpath, fn)
-        txt = open(p, encoding="utf-8").read()
+        rel = os.path.relpath(p, BASE)
+        if _gitignore_skip(rel):
+            continue
+        scanned += 1
+        txt = open(p, "rb").read().decode("utf-8", "ignore")
         if phone.search(txt):
-            bad.append((p, "手机号"))
+            bad.append((rel, "手机号"))
         if email.search(txt):
-            bad.append((p, "邮箱"))
+            bad.append((rel, "邮箱"))
         if idcard.search(txt):
-            bad.append((p, "身份证号"))
-check("全仓无手机号/邮箱/身份证号", not bad, "命中=%s" % (bad,))
+            bad.append((rel, "身份证号"))
+check("全仓无手机号/邮箱/身份证号", not bad,
+      "扫描=%d 文件 命中=%s" % (scanned, bad))
 
 # ---------- 9. README 文件清单 ----------
 readme = read("README.md")
@@ -295,11 +326,78 @@ check("PNG 内嵌 mxfile 单元格签名（id/值/连线）与 drawio 源文件�
       _mx is not None and _emb_cells == _src_cells,
       "差异=%s" % ([k for k in _src_cells if _src_cells.get(k) != _emb_cells.get(k)] or "无"))
 
+# ---------- 19. PNG 内嵌 mxfile 与 drawio 源文件几何/样式一致 ----------
+def _mx_cells_full(text):
+    _root = ET.fromstring(text)
+    _out = {}
+    for _c in _root.iter("mxCell"):
+        _g = _c.find("mxGeometry")
+        _geo = None
+        if _g is not None:
+            _geo = (_g.get("x"), _g.get("y"), _g.get("width"),
+                    _g.get("height"), _g.get("relative"), _g.get("as"))
+        _out[_c.get("id")] = ((_c.get("value") or ""),
+                              (_c.get("source") or ""),
+                              (_c.get("target") or ""),
+                              (_c.get("style") or ""), _geo)
+    return _out
+
+
+_emb_full = _mx_cells_full(_up.unquote(_mx)) if _mx else {}
+_src_full = _mx_cells_full(read("diagrams/泳道图.drawio"))
+_geo_diff = [k for k in _src_full
+             if _src_full[k][4] != _emb_full.get(k, (None,) * 5)[4]]
+check("PNG 内嵌 mxfile 单元格几何（x/y/w/h）与 drawio 源文件一致",
+      _mx is not None and not _geo_diff,
+      "差异=%s" % (_geo_diff or "无"))
+_style_diff = [k for k in _src_full
+               if _src_full[k][3] != _emb_full.get(k, (None,) * 5)[3]]
+check("PNG 内嵌 mxfile 单元格样式（style）与 drawio 源文件一致",
+      _mx is not None and not _style_diff,
+      "差异=%s" % (_style_diff or "无"))
+
 # ---------- 18. README 的 PNG 字节数与实际文件一致 ----------
 _png_size = os.path.getsize(os.path.join(BASE, "diagrams/泳道图.png"))
 check("README 的 PNG 字节数与实际文件一致",
       ("%d 字节" % _png_size) in read("README.md"),
       "实际=%d 字节" % _png_size)
+
+# ---------- 20. 渲染核验：预览可渲染，原生 PNG 与预览差异已记录 ----------
+import subprocess as _sp
+
+_render = _sp.run([sys.executable, os.path.join(BASE, "scripts", "render_png.py")],
+                  capture_output=True, text=True, timeout=120)
+_preview_path = os.path.join(BASE, "diagrams", "泳道图-预览.png")
+_preview_ok = (_render.returncode == 0
+               and os.path.exists(_preview_path))
+_preview_size = None
+_preview_mode = None
+if _preview_ok:
+    try:
+        _pim = Image.open(_preview_path)
+        _pim.load()
+        _preview_size, _preview_mode = _pim.size, _pim.mode
+    except Exception:
+        _preview_ok = False
+check("渲染预览生成成功（1400×900 RGB）",
+      _preview_ok and _preview_size == (1400, 900) and _preview_mode == "RGB",
+      "实际=%s %s 退出码=%d" % (_preview_size, _preview_mode,
+                                _render.returncode))
+# 像素逐点一致：不预期。预览是 Pillow 按同一节点/连线集重绘的示意图
+# （画布 1400×900 RGB），原生 PNG 是 draw.io 图界导出（1312×862 RGBA），
+# 渲染器与画布都不同。核验点是：两者都可读、尺寸与模式如宣称、差异已
+# 在 README 与 evidence/render-compare-20261125.log 中写清。
+try:
+    _native_size, _native_mode = im.size, im.mode
+except NameError:
+    _native_size, _native_mode = None, None
+check("渲染核验：预览与原生 PNG 尺寸/像素差异已记录且原因已说明",
+      _preview_ok and _native_size == (1312, 862) and _native_mode == "RGBA"
+      and "预览 1400×900 与原生 1312×862 尺寸不同" in read("README.md"),
+      "预览=%s %s 原生=%s %s 像素逐点一致=否（渲染器不同，预期内）"
+      % (_preview_size, _preview_mode, _native_size, _native_mode))
+print("环境：Python %s，Pillow %s" % (sys.version.split()[0],
+                                    __import__("PIL").__version__))
 
 print()
 if FAILURES:

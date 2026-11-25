@@ -101,7 +101,7 @@ PASS 连线标签「延长 2 周」drawio 与渲染脚本一致
 PASS 连线标签「满6周仍不足20实例」drawio 与渲染脚本一致
 PASS 连线标签「未达标：返回起草修订」drawio 与渲染脚本一致
 PASS 连线标签「放弃本次变更」drawio 与渲染脚本一致
-PASS 全仓无手机号/邮箱/身份证号 -- 命中=[]
+PASS 全仓无手机号/邮箱/身份证号 -- 扫描=17 文件 命中=[]
 PASS README 清单文件存在：docs/SOP-版本发布流程.md
 PASS README 清单文件存在：docs/RACI.md
 PASS README 清单文件存在：docs/发布通知模板.md
@@ -147,6 +147,11 @@ PASS RACI.md 说明评审阶段双 R 分工
 PASS PNG 含 draw.io 内嵌 mxfile 元数据
 PASS PNG 内嵌 mxfile 单元格数与 drawio 源文件一致 -- 内嵌=53 源=53
 PASS PNG 内嵌 mxfile 单元格签名（id/值/连线）与 drawio 源文件一致 -- 差异=无
+PASS PNG 内嵌 mxfile 单元格几何（x/y/w/h）与 drawio 源文件一致 -- 差异=无
+PASS PNG 内嵌 mxfile 单元格样式（style）与 drawio 源文件一致 -- 差异=无
 PASS README 的 PNG 字节数与实际文件一致 -- 实际=158707 字节
+PASS 渲染预览生成成功（1400×900 RGB） -- 实际=(1400, 900) RGB 退出码=0
+PASS 渲染核验：预览与原生 PNG 尺寸/像素差异已记录且原因已说明 -- 预览=(1400, 900) RGB 原生=(1312, 862) RGBA 像素逐点一致=否（渲染器不同，预期内）
+环境：Python 3.12.3，Pillow 10.2.0
 
 RESULT: PASS

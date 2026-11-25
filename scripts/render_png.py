@@ -6,6 +6,8 @@ The repo PNG (diagrams/泳道图.png) is the native draw.io export (2026-11-25,
 "diagrams/泳道图-预览.png" and never overwrites the native export.
 The drawio file is canonical (opens in draw.io).
 See README.md for the disclosure.
+运行环境：Python 3.12.3，Pillow==10.2.0（见 requirements.txt）。
+本机实测版本：python3 -c "import PIL; print(PIL.__version__)" → 10.2.0。
 """
 import os
 from PIL import Image, ImageDraw, ImageFont
