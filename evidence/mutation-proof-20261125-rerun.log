@@ -1,0 +1,343 @@
+# #3157 变异自证重跑记录（2026-11-25 CST）
+# 依据：GPT 终验收尾确认（2026-11-25）修改后 GO 的唯一阻断项——上一轮 evidence/mutation-proof-20261125.log 的 A、B 组数字为人工改写后记录，不能作为原始运行输出。
+# 本日志：新版脚本（81b013f 的 scripts/check_3157.py，含 §0 Python 3.12.3 版本门禁）在干净副本上重跑 A、B 两组，原始 stdout 原样保存，未经人工改写；退出码逐组记录。
+# 旧日志 evidence/mutation-proof-20261125.log 保留不动，仅作历史；其 A、B 组改写数字不再引用为证据，C 组恢复结果沿用（见本日志 C 组一节）。
+# 扫描文件数说明：本日志文件在 A、B 组运行前已建头，故运行当时仓内共 19 个文件参与隐私扫描（17 个旧 MANIFEST 文件 + .gitignore + 本日志；MANIFEST.sha256 自身按脚本规则跳过；预览图由 §20 在扫描之后生成，不计入）。
+# 运行环境：Python 3.12.3，Pillow 10.2.0。来源提交：main 81b013f（完整 81b013f5ffe4755da07a147dddb392bdf7517ef4），tarball 下载后从零解压的副本。
+
+===== A 组：正常跑（工作目录原样，新版脚本）=====
+命令：python3 scripts/check_3157.py
+退出码：0
+PASS 解释器为 Python 3.12.3 -- 实际=3.12.3
+PASS 主文档包含「版本号规则」
+PASS 主文档包含「五个阶段」
+PASS 主文档包含「RACI」
+PASS 主文档包含「回滚规则」
+PASS 主文档包含「发布通知模板」
+PASS 主文档包含「进入条件」
+PASS 主文档包含「退出条件」
+PASS 主文档包含「最长停留时间」
+PASS 主文档包含「5 个百分点」
+PASS 主文档包含「blocker」
+PASS 5 个阶段小节齐全且顺序正确
+PASS 第 1 阶段：起草含进入条件/退出条件/负责角色/所需材料/最长停留
+PASS 第 2 阶段：评审含进入条件/退出条件/负责角色/所需材料/最长停留
+PASS 第 3 阶段：试运行含进入条件/退出条件/负责角色/所需材料/最长停留
+PASS 第 4 阶段：正式发布含进入条件/退出条件/负责角色/所需材料/最长停留
+PASS 第 5 阶段：旧版本归档含进入条件/退出条件/负责角色/所需材料/最长停留
+PASS 试运行转正式三条标准齐全
+PASS RACI 表有 5 个阶段行 -- 行数=5
+PASS RACI 行「1. 起草」恰有 1 个 A -- A 数=1
+PASS RACI 行「2. 评审」恰有 1 个 A -- A 数=1
+PASS RACI 行「3. 试运行」恰有 1 个 A -- A 数=1
+PASS RACI 行「4. 正式发布」恰有 1 个 A -- A 数=1
+PASS RACI 行「5. 旧版本归档」恰有 1 个 A -- A 数=1
+PASS 通知模板包含「变更摘要」
+PASS 通知模板包含「生效时间」
+PASS 通知模板包含「影响角色」
+PASS 通知模板包含「回滚窗口」
+PASS 通知模板包含「模板发布通知」
+PASS 通知模板含已填写示例
+PASS 通知模板含回滚通知示例
+PASS 示例共 6 个 -- 个数=6
+PASS 例 1 含触发词「新增步骤」
+PASS 例 1 判定=主版本（规则 M1） -- 实际=主版本
+PASS 例 1 引用规则 M1
+PASS 例 1 新版本号=3.0 -- 实际=3.0
+PASS 例 1 有推理
+PASS 例 2 含触发词「调整步骤顺序」
+PASS 例 2 判定=主版本（规则 M2） -- 实际=主版本
+PASS 例 2 引用规则 M2
+PASS 例 2 新版本号=3.0 -- 实际=3.0
+PASS 例 2 有推理
+PASS 例 3 含触发词「更换步骤的负责角色」
+PASS 例 3 判定=主版本（规则 M3） -- 实际=主版本
+PASS 例 3 引用规则 M3
+PASS 例 3 新版本号=3.0 -- 实际=3.0
+PASS 例 3 有推理
+PASS 例 4 含触发词「SLA」
+PASS 例 4 判定=次版本（规则 m1） -- 实际=次版本
+PASS 例 4 引用规则 m1
+PASS 例 4 新版本号=2.4 -- 实际=2.4
+PASS 例 4 有推理
+PASS 例 5 含触发词「表单新增必填字段」
+PASS 例 5 判定=次版本（规则 m2） -- 实际=次版本
+PASS 例 5 引用规则 m2
+PASS 例 5 新版本号=2.4 -- 实际=2.4
+PASS 例 5 有推理
+PASS 例 6 含触发词「错别字」
+PASS 例 6 判定=次版本（规则 m4） -- 实际=次版本
+PASS 例 6 引用规则 m4
+PASS 例 6 新版本号=2.4 -- 实际=2.4
+PASS 例 6 有推理
+PASS 例 6 标注「文字修订」
+PASS drawio 为合法 XML 且含 mxGraphModel
+PASS drawio 有 6 条泳道 -- 泳道数=6
+PASS drawio 有 18 个节点 -- 节点数=18
+PASS drawio 有 27 条连线 -- 连线数=27
+PASS drawio 含阶段「起草」
+PASS drawio 含阶段「评审」
+PASS drawio 含阶段「试运行」
+PASS drawio 含阶段「正式发布」
+PASS drawio 含阶段「归档」
+PASS drawio 含泳道「SOP 编辑」
+PASS drawio 含泳道「SOP 负责人」
+PASS drawio 含泳道「一线执行代表」
+PASS drawio 含泳道「会所负责人」
+PASS drawio 含泳道「知识库管理员」
+PASS drawio 含泳道「运营负责人」
+PASS drawio d5 为六周最终裁定菱形且在 SOP 负责人泳道 -- parent=lane2
+PASS drawio d4 为延长裁定菱形且在 SOP 负责人泳道 -- parent=lane2
+PASS PNG 可打开 -- (1312, 862) RGBA
+PASS PNG 尺寸 1312x862 -- 实际=(1312, 862)
+PASS PNG 为 draw.io 原生导出（RGBA） -- 实际=RGBA
+PASS PNG 非空且大于 10KB -- 158707 字节
+PASS 节点「起草版本草稿」drawio 与渲染脚本一致
+PASS 节点「评审草稿」drawio 与渲染脚本一致
+PASS 节点「评审会签」drawio 与渲染脚本一致
+PASS 节点「正式发布」drawio 与渲染脚本一致
+PASS 节点「归档旧版本」drawio 与渲染脚本一致
+PASS 节点「确认回滚」drawio 与渲染脚本一致
+PASS 节点「结束」drawio 与渲染脚本一致
+PASS 节点「4周不足20实例」drawio 与渲染脚本一致
+PASS 节点「负责人裁定」drawio 与渲染脚本一致
+PASS 节点「达到20实例后评估」drawio 与渲染脚本一致
+PASS 节点「6周最终裁定」drawio 与渲染脚本一致
+PASS 节点「不得再延长」drawio 与渲染脚本一致
+PASS drawio 与渲染脚本均无旧表达「≥2周/20实例」
+PASS drawio 含 6 处 swimlane 样式 -- 计数=6
+PASS 连线标签「满4周仍不足20实例」drawio 与渲染脚本一致
+PASS 连线标签「按现有样本裁定」drawio 与渲染脚本一致
+PASS 连线标签「延长 2 周」drawio 与渲染脚本一致
+PASS 连线标签「满6周仍不足20实例」drawio 与渲染脚本一致
+PASS 连线标签「未达标：返回起草修订」drawio 与渲染脚本一致
+PASS 连线标签「放弃本次变更」drawio 与渲染脚本一致
+PASS 隐私扫描（UTF-8 容错解码 + 手机号/邮箱/身份证号三类正则）零命中 -- 扫描=19 文件 命中=[]
+PASS README 清单文件存在：docs/SOP-版本发布流程.md
+PASS README 清单文件存在：docs/RACI.md
+PASS README 清单文件存在：docs/发布通知模板.md
+PASS README 清单文件存在：docs/变更判定示例.md
+PASS README 清单文件存在：diagrams/泳道图.drawio
+PASS README 清单文件存在：diagrams/泳道图.png
+PASS README 清单文件存在：scripts/check_3157.py
+PASS README 清单文件存在：scripts/render_png.py
+PASS §2.3 含试运行规则「至少持续 2 周」
+PASS §2.3 含试运行规则「累计达到 20 个实例后」
+PASS §2.3 含试运行规则「4 周仍不足 20 个实例」
+PASS §2.3 含试运行规则「P1、P2、P3 必须全部满足」
+PASS §2.3 不再有歧义表述「两者先到为准」
+PASS §2.3 含六周最终裁定「不得再延长」
+PASS 示例不再有旧表述「至少 2 周或 20 个实例」
+PASS 主文档写明回滚 14 天为日历日
+PASS 主文档回滚示例截止 2027-02-15 24:00
+PASS 通知模板已填写示例截止 2027-02-15 24:00
+PASS 通知模板不再有旧截止 2027-02-16
+PASS §2.3 含「任一判定指标因样本不足无法计算时，不得视为达标」
+PASS §2.6 含「任一判定指标因样本不足无法计算时，不得视为达标」
+PASS §2.3 含「六周期限届满仍无法完成有效判定的，按未达标处理」
+PASS §2.6 含「六周期限届满仍无法完成有效判定的，按未达标处理」
+PASS 主文档签字权限：A 不得授权其他角色代签
+PASS 主文档签字权限：R 不得由 C 或 I 代签
+PASS 主文档签字权限：双 R 两栏均由该人本人签字
+PASS RACI.md 签字权限与主文档一致
+PASS RACI.md 补入替补身份签字要求
+PASS 主文档与 RACI.md 替补身份签字一致
+PASS 附录 B 写明五个判定点
+PASS 附录 B 含六周最终裁定
+PASS 附录 B 写明 d5 三个出口（样本裁定/返回修订/放弃）
+PASS 连线 e24：n7 → d5 -- 实际=n7 → d5
+PASS 连线 e24 标签为「满6周仍不足20实例」 -- 实际=满6周仍不足20实例
+PASS 连线 e25：d5 → d3 -- 实际=d5 → d3
+PASS 连线 e25 标签为「按现有样本裁定」 -- 实际=按现有样本裁定
+PASS 连线 e26：d5 → n5 -- 实际=d5 → n5
+PASS 连线 e26 标签为「未达标：返回起草修订」 -- 实际=未达标：返回起草修订
+PASS 连线 e27：d5 → e1 -- 实际=d5 → e1
+PASS 连线 e27 标签为「放弃本次变更」 -- 实际=放弃本次变更
+PASS 主文档说明评审阶段双 R 分工
+PASS RACI.md 说明评审阶段双 R 分工
+PASS PNG 含 draw.io 内嵌 mxfile 元数据
+PASS PNG 内嵌 mxfile 单元格数与 drawio 源文件一致 -- 内嵌=53 源=53
+PASS PNG 内嵌 mxfile 单元格签名（id/值/连线）与 drawio 源文件一致 -- 差异=无
+PASS PNG 内嵌 mxfile 单元格几何（x/y/w/h）与 drawio 源文件一致 -- 差异=无
+PASS PNG 内嵌 mxfile 单元格样式（style）与 drawio 源文件一致 -- 差异=无
+PASS README 的 PNG 字节数与实际文件一致 -- 实际=158707 字节
+PASS 渲染预览生成成功（1400×900 RGB） -- 实际=(1400, 900) RGB 退出码=0
+PASS 渲染核验：预览与原生 PNG 尺寸/像素差异已记录且原因已说明 -- 预览=(1400, 900) RGB 原生=(1312, 862) RGBA 像素逐点一致=否（渲染器不同，预期内）
+环境：Python 3.12.3，Pillow 10.2.0
+
+RESULT: PASS
+
+===== B 组：故意改坏一处真实行为（只改 /tmp 副本）=====
+命令：cp -r 工作目录 /tmp/mut3157b；sed -i '64s/次版本/主版本/' /tmp/mut3157b/docs/变更判定示例.md；cd /tmp/mut3157b && python3 scripts/check_3157.py
+退出码：1
+PASS 解释器为 Python 3.12.3 -- 实际=3.12.3
+PASS 主文档包含「版本号规则」
+PASS 主文档包含「五个阶段」
+PASS 主文档包含「RACI」
+PASS 主文档包含「回滚规则」
+PASS 主文档包含「发布通知模板」
+PASS 主文档包含「进入条件」
+PASS 主文档包含「退出条件」
+PASS 主文档包含「最长停留时间」
+PASS 主文档包含「5 个百分点」
+PASS 主文档包含「blocker」
+PASS 5 个阶段小节齐全且顺序正确
+PASS 第 1 阶段：起草含进入条件/退出条件/负责角色/所需材料/最长停留
+PASS 第 2 阶段：评审含进入条件/退出条件/负责角色/所需材料/最长停留
+PASS 第 3 阶段：试运行含进入条件/退出条件/负责角色/所需材料/最长停留
+PASS 第 4 阶段：正式发布含进入条件/退出条件/负责角色/所需材料/最长停留
+PASS 第 5 阶段：旧版本归档含进入条件/退出条件/负责角色/所需材料/最长停留
+PASS 试运行转正式三条标准齐全
+PASS RACI 表有 5 个阶段行 -- 行数=5
+PASS RACI 行「1. 起草」恰有 1 个 A -- A 数=1
+PASS RACI 行「2. 评审」恰有 1 个 A -- A 数=1
+PASS RACI 行「3. 试运行」恰有 1 个 A -- A 数=1
+PASS RACI 行「4. 正式发布」恰有 1 个 A -- A 数=1
+PASS RACI 行「5. 旧版本归档」恰有 1 个 A -- A 数=1
+PASS 通知模板包含「变更摘要」
+PASS 通知模板包含「生效时间」
+PASS 通知模板包含「影响角色」
+PASS 通知模板包含「回滚窗口」
+PASS 通知模板包含「模板发布通知」
+PASS 通知模板含已填写示例
+PASS 通知模板含回滚通知示例
+PASS 示例共 6 个 -- 个数=6
+PASS 例 1 含触发词「新增步骤」
+PASS 例 1 判定=主版本（规则 M1） -- 实际=主版本
+PASS 例 1 引用规则 M1
+PASS 例 1 新版本号=3.0 -- 实际=3.0
+PASS 例 1 有推理
+PASS 例 2 含触发词「调整步骤顺序」
+PASS 例 2 判定=主版本（规则 M2） -- 实际=主版本
+PASS 例 2 引用规则 M2
+PASS 例 2 新版本号=3.0 -- 实际=3.0
+PASS 例 2 有推理
+PASS 例 3 含触发词「更换步骤的负责角色」
+PASS 例 3 判定=主版本（规则 M3） -- 实际=主版本
+PASS 例 3 引用规则 M3
+PASS 例 3 新版本号=3.0 -- 实际=3.0
+PASS 例 3 有推理
+PASS 例 4 含触发词「SLA」
+FAIL 例 4 判定=次版本（规则 m1） -- 实际=主版本
+PASS 例 4 引用规则 m1
+PASS 例 4 新版本号=2.4 -- 实际=2.4
+PASS 例 4 有推理
+PASS 例 5 含触发词「表单新增必填字段」
+PASS 例 5 判定=次版本（规则 m2） -- 实际=次版本
+PASS 例 5 引用规则 m2
+PASS 例 5 新版本号=2.4 -- 实际=2.4
+PASS 例 5 有推理
+PASS 例 6 含触发词「错别字」
+PASS 例 6 判定=次版本（规则 m4） -- 实际=次版本
+PASS 例 6 引用规则 m4
+PASS 例 6 新版本号=2.4 -- 实际=2.4
+PASS 例 6 有推理
+PASS 例 6 标注「文字修订」
+PASS drawio 为合法 XML 且含 mxGraphModel
+PASS drawio 有 6 条泳道 -- 泳道数=6
+PASS drawio 有 18 个节点 -- 节点数=18
+PASS drawio 有 27 条连线 -- 连线数=27
+PASS drawio 含阶段「起草」
+PASS drawio 含阶段「评审」
+PASS drawio 含阶段「试运行」
+PASS drawio 含阶段「正式发布」
+PASS drawio 含阶段「归档」
+PASS drawio 含泳道「SOP 编辑」
+PASS drawio 含泳道「SOP 负责人」
+PASS drawio 含泳道「一线执行代表」
+PASS drawio 含泳道「会所负责人」
+PASS drawio 含泳道「知识库管理员」
+PASS drawio 含泳道「运营负责人」
+PASS drawio d5 为六周最终裁定菱形且在 SOP 负责人泳道 -- parent=lane2
+PASS drawio d4 为延长裁定菱形且在 SOP 负责人泳道 -- parent=lane2
+PASS PNG 可打开 -- (1312, 862) RGBA
+PASS PNG 尺寸 1312x862 -- 实际=(1312, 862)
+PASS PNG 为 draw.io 原生导出（RGBA） -- 实际=RGBA
+PASS PNG 非空且大于 10KB -- 158707 字节
+PASS 节点「起草版本草稿」drawio 与渲染脚本一致
+PASS 节点「评审草稿」drawio 与渲染脚本一致
+PASS 节点「评审会签」drawio 与渲染脚本一致
+PASS 节点「正式发布」drawio 与渲染脚本一致
+PASS 节点「归档旧版本」drawio 与渲染脚本一致
+PASS 节点「确认回滚」drawio 与渲染脚本一致
+PASS 节点「结束」drawio 与渲染脚本一致
+PASS 节点「4周不足20实例」drawio 与渲染脚本一致
+PASS 节点「负责人裁定」drawio 与渲染脚本一致
+PASS 节点「达到20实例后评估」drawio 与渲染脚本一致
+PASS 节点「6周最终裁定」drawio 与渲染脚本一致
+PASS 节点「不得再延长」drawio 与渲染脚本一致
+PASS drawio 与渲染脚本均无旧表达「≥2周/20实例」
+PASS drawio 含 6 处 swimlane 样式 -- 计数=6
+PASS 连线标签「满4周仍不足20实例」drawio 与渲染脚本一致
+PASS 连线标签「按现有样本裁定」drawio 与渲染脚本一致
+PASS 连线标签「延长 2 周」drawio 与渲染脚本一致
+PASS 连线标签「满6周仍不足20实例」drawio 与渲染脚本一致
+PASS 连线标签「未达标：返回起草修订」drawio 与渲染脚本一致
+PASS 连线标签「放弃本次变更」drawio 与渲染脚本一致
+PASS 隐私扫描（UTF-8 容错解码 + 手机号/邮箱/身份证号三类正则）零命中 -- 扫描=19 文件 命中=[]
+PASS README 清单文件存在：docs/SOP-版本发布流程.md
+PASS README 清单文件存在：docs/RACI.md
+PASS README 清单文件存在：docs/发布通知模板.md
+PASS README 清单文件存在：docs/变更判定示例.md
+PASS README 清单文件存在：diagrams/泳道图.drawio
+PASS README 清单文件存在：diagrams/泳道图.png
+PASS README 清单文件存在：scripts/check_3157.py
+PASS README 清单文件存在：scripts/render_png.py
+PASS §2.3 含试运行规则「至少持续 2 周」
+PASS §2.3 含试运行规则「累计达到 20 个实例后」
+PASS §2.3 含试运行规则「4 周仍不足 20 个实例」
+PASS §2.3 含试运行规则「P1、P2、P3 必须全部满足」
+PASS §2.3 不再有歧义表述「两者先到为准」
+PASS §2.3 含六周最终裁定「不得再延长」
+PASS 示例不再有旧表述「至少 2 周或 20 个实例」
+PASS 主文档写明回滚 14 天为日历日
+PASS 主文档回滚示例截止 2027-02-15 24:00
+PASS 通知模板已填写示例截止 2027-02-15 24:00
+PASS 通知模板不再有旧截止 2027-02-16
+PASS §2.3 含「任一判定指标因样本不足无法计算时，不得视为达标」
+PASS §2.6 含「任一判定指标因样本不足无法计算时，不得视为达标」
+PASS §2.3 含「六周期限届满仍无法完成有效判定的，按未达标处理」
+PASS §2.6 含「六周期限届满仍无法完成有效判定的，按未达标处理」
+PASS 主文档签字权限：A 不得授权其他角色代签
+PASS 主文档签字权限：R 不得由 C 或 I 代签
+PASS 主文档签字权限：双 R 两栏均由该人本人签字
+PASS RACI.md 签字权限与主文档一致
+PASS RACI.md 补入替补身份签字要求
+PASS 主文档与 RACI.md 替补身份签字一致
+PASS 附录 B 写明五个判定点
+PASS 附录 B 含六周最终裁定
+PASS 附录 B 写明 d5 三个出口（样本裁定/返回修订/放弃）
+PASS 连线 e24：n7 → d5 -- 实际=n7 → d5
+PASS 连线 e24 标签为「满6周仍不足20实例」 -- 实际=满6周仍不足20实例
+PASS 连线 e25：d5 → d3 -- 实际=d5 → d3
+PASS 连线 e25 标签为「按现有样本裁定」 -- 实际=按现有样本裁定
+PASS 连线 e26：d5 → n5 -- 实际=d5 → n5
+PASS 连线 e26 标签为「未达标：返回起草修订」 -- 实际=未达标：返回起草修订
+PASS 连线 e27：d5 → e1 -- 实际=d5 → e1
+PASS 连线 e27 标签为「放弃本次变更」 -- 实际=放弃本次变更
+PASS 主文档说明评审阶段双 R 分工
+PASS RACI.md 说明评审阶段双 R 分工
+PASS PNG 含 draw.io 内嵌 mxfile 元数据
+PASS PNG 内嵌 mxfile 单元格数与 drawio 源文件一致 -- 内嵌=53 源=53
+PASS PNG 内嵌 mxfile 单元格签名（id/值/连线）与 drawio 源文件一致 -- 差异=无
+PASS PNG 内嵌 mxfile 单元格几何（x/y/w/h）与 drawio 源文件一致 -- 差异=无
+PASS PNG 内嵌 mxfile 单元格样式（style）与 drawio 源文件一致 -- 差异=无
+PASS README 的 PNG 字节数与实际文件一致 -- 实际=158707 字节
+PASS 渲染预览生成成功（1400×900 RGB） -- 实际=(1400, 900) RGB 退出码=0
+PASS 渲染核验：预览与原生 PNG 尺寸/像素差异已记录且原因已说明 -- 预览=(1400, 900) RGB 原生=(1312, 862) RGBA 像素逐点一致=否（渲染器不同，预期内）
+环境：Python 3.12.3，Pillow 10.2.0
+
+RESULT: FAIL (1 项): ['例 4 判定=次版本（规则 m1）']
+
+===== C 组：恢复验证（沿用上一轮结果，未重跑）=====
+GPT 终验收尾确认裁决：C 组恢复结果可以保留。本组不重跑，原因：B 组只改 /tmp 副本，工作目录原文件未动（下行 SHA256 与 MANIFEST 记录一致）；上一轮 C 组已在工作目录原样重跑并 RESULT: PASS（见旧日志 evidence/mutation-proof-20261125.log 的 C 组一节）。
+工作目录原文件 docs/变更判定示例.md SHA256（B 组运行后复核）：
+29b24ed21545b20b443e57d06fcff3573a26747ae56a0dcfe118bb2e45ca0f60  /home/hatch/workspace/goals/20/hidden_files/clawhunt-hourly-build/3157-mutation-rerun/repo/docs/变更判定示例.md
+与 MANIFEST 记录一致（29b24ed21545b20b443e57d06fcff3573a26747ae56a0dcfe118bb2e45ca0f60），原文件未动。
+
+===== 3.12.4 反向门禁测试：期望版本改成 (3, 12, 4) 后运行 =====
+方法：把 scripts/check_3157.py 复制到 /tmp/check_3124.py，仅改 §0 门禁的期望版本（(3, 12, 3) 改成 (3, 12, 4)，检查名与报错文案同步改成 3.12.4，其余不动），用本机 Python 3.12.3 运行；门禁在全部业务检查之前退出，不读交付文件。测试副本跑完即删。
+命令：cp scripts/check_3157.py /tmp/check_3124.py；sed 改期望版本为 (3, 12, 4)；python3 /tmp/check_3124.py
+退出码：1
+FAIL 解释器为 Python 3.12.4 -- 实际=3.12.3
+ERROR: 须用 Python 3.12.4，当前版本 3.12.3；请按 .python-version 切换解释器。

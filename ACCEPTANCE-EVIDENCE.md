@@ -4,7 +4,7 @@
 本文件在仓根，供平台预检与人工买家直接读取。
 核对命令：`python3 scripts/check_3157.py`（环境：Python 3.12.3，见 `.python-version`；脚本开头强制检查解释器版本，版本不符报错退出。Pillow==10.2.0）。
 核对输出全文：`evidence/check-output.txt`。
-变异自证：`evidence/mutation-proof-20261125.log`。
+变异自证：`evidence/mutation-proof-20261125-rerun.log`（原始输出未经改写；旧日志 `mutation-proof-20261125.log` 仅作历史）。
 渲染核验：`evidence/render-compare-20261125.log`。
 
 ## AC1——文档包含版本号规则、5 个阶段的进入与退出条件、RACI 表、回滚规则、通知模板
@@ -148,7 +148,7 @@ python3 scripts/check_3157.py
 
 ```
 PASS 解释器为 Python 3.12.3 -- 实际=3.12.3
-PASS 隐私扫描（UTF-8 容错解码 + 手机号/邮箱/身份证号三类正则）零命中 -- 扫描=18 文件 命中=[]
+PASS 隐私扫描（UTF-8 容错解码 + 手机号/邮箱/身份证号三类正则）零命中 -- 扫描=19 文件 命中=[]
 环境：Python 3.12.3，Pillow 10.2.0
 
 RESULT: PASS
@@ -158,20 +158,21 @@ RESULT: PASS
 
 ## 变异自证（三组结果摘要）
 
-全文见 `evidence/mutation-proof-20261125.log`。
+全文见 `evidence/mutation-proof-20261125-rerun.log`（A/B 组重跑原始输出 + 3.12.4 反向门禁测试原始输出；旧日志仅作历史）。
 
 - A 组正常跑：`python3 scripts/check_3157.py` → 155 项 PASS，0 项 FAIL，`RESULT: PASS`，退出码 0。
 - B 组改坏：把副本里 `docs/变更判定示例.md` 例 4 的判定由“次版本”改成“主版本”（只改副本，不动交付文件），重跑 → `FAIL 例 4 判定=次版本（规则 m1） -- 实际=主版本`，`RESULT: FAIL (1 项)`，退出码 1。
-- C 组恢复：工作目录原文件 SHA256 改前改后一致（29b24ed21545b20b443e57d06fcff3573a26747ae56a0dcfe118bb2e45ca0f60），恢复后重跑 → `RESULT: PASS`，退出码 0。
+- C 组恢复：沿用上一轮结果，未重跑（GPT 终验收尾确认裁决：C 组恢复结果可以保留）；工作目录原文件 SHA256 改前改后一致（29b24ed21545b20b443e57d06fcff3573a26747ae56a0dcfe118bb2e45ca0f60），上一轮恢复重跑 → `RESULT: PASS`，退出码 0（见旧日志 `evidence/mutation-proof-20261125.log` 的 C 组一节）。
+- 3.12.4 反向门禁：期望版本改成 (3, 12, 4) 后运行 → `FAIL 解释器为 Python 3.12.4 -- 实际=3.12.3`，报错退出，退出码 1（原始输出见新日志）。
 
 ## 已知限制（据实说明）
 
 - 规则 m3（操作说明变化）无独立示例；文档已在末节说明原因（判定逻辑与 m1、m2 相同，例 5 已覆盖“影响执行但不改结构”这一类）。
 - 泳道图 d5 菱形标签为 2 行（“负责人裁定”一行略去，角色由 SOP 负责人泳道与主文档 §2.3 承担）。
 - 全部示例均为虚构数据，不含真实个人信息、企业信息与客户名称；依赖 S3-SOP 处以接口桩 / mock 为准（主文档附录 C）。
-- 隐私扫描结论口径：只断言在 UTF-8 容错解码 + 手机号/邮箱/身份证号三类正则检测范围内，18 个文件零命中；不保证二进制编码、图片及复杂格式均无个人信息。
+- 隐私扫描结论口径：只断言在 UTF-8 容错解码 + 手机号/邮箱/身份证号三类正则检测范围内，19 个文件零命中；不保证二进制编码、图片及复杂格式均无个人信息。
 - 核对脚本的示例检查是关键词、规则编号、判定文字与版本号的断言，不能替代人工对推理过程的复核。
 
 ## 文件清单与 MANIFEST
 
-`MANIFEST.sha256` 覆盖 17 个文件（不含 `MANIFEST.sha256` 自身与 `.gitignore`）：9 个核心交付文件（README、drawio、PNG、4 份文档、2 个脚本）+ 本文件 + `requirements.txt` + `.python-version` + `evidence/` 下 5 个证据文件。`sha256sum -c MANIFEST.sha256` 全过。
+`MANIFEST.sha256` 覆盖 18 个文件（不含 `MANIFEST.sha256` 自身与 `.gitignore`）：9 个核心交付文件（README、drawio、PNG、4 份文档、2 个脚本）+ 本文件 + `requirements.txt` + `.python-version` + `evidence/` 下 6 个证据文件。`sha256sum -c MANIFEST.sha256` 全过。

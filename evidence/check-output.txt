@@ -102,7 +102,7 @@ PASS 连线标签「延长 2 周」drawio 与渲染脚本一致
 PASS 连线标签「满6周仍不足20实例」drawio 与渲染脚本一致
 PASS 连线标签「未达标：返回起草修订」drawio 与渲染脚本一致
 PASS 连线标签「放弃本次变更」drawio 与渲染脚本一致
-PASS 隐私扫描（UTF-8 容错解码 + 手机号/邮箱/身份证号三类正则）零命中 -- 扫描=18 文件 命中=[]
+PASS 隐私扫描（UTF-8 容错解码 + 手机号/邮箱/身份证号三类正则）零命中 -- 扫描=19 文件 命中=[]
 PASS README 清单文件存在：docs/SOP-版本发布流程.md
 PASS README 清单文件存在：docs/RACI.md
 PASS README 清单文件存在：docs/发布通知模板.md
